@@ -1,5 +1,6 @@
-package com.santiagoperdomo.spotify.common
+package com.santiagoperdomo.spotify
 
+import com.santiagoperdomo.spotify.common.Constants
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 

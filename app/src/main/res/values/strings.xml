@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Spotify</string>
+    <string name="playlists">Playlists</string>
+    <string name="buscar">Buscar</string>
+    <string name="id">Id:</string>
+    <string name="name">Nombre:</string>
+    <string name="uri">Uri:</string>
+    <string name="type">Tipo:</string>
+    <string name="email">Email:</string>
+    <string name="product">Producto:</string>
+    <string name="followers">Seguidores:</string>
+    <string name="imagen_usuario">Imagen usuario</string>
 </resources>

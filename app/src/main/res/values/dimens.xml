@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="ochenta_dp">80dp</dimen>
+    <dimen name="cientoveinte_dp">120dp</dimen>
+    <dimen name="diez_dp">10dp</dimen>
+    <dimen name="doce_dp">12dp</dimen>
+    <dimen name="ocho_dp">8dp</dimen>
+    <dimen name="dieciocho_sp">18sp</dimen>
+    <dimen name="quince_dp">15dp</dimen>
+    <dimen name="cero_dp">0dp</dimen>
 </resources>

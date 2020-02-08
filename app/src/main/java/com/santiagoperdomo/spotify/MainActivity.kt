@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.santiagoperdomo.spotify.common.Constants
-import com.santiagoperdomo.spotify.common.RequestToken
 import com.santiagoperdomo.spotify.common.SharedPreferencesManager
 import com.santiagoperdomo.spotify.root.App
+import com.santiagoperdomo.spotify.user.UserActivity
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import de.hdodenhof.circleimageview.CircleImageView
@@ -36,7 +36,9 @@ class MainActivity : AppCompatActivity() {
             when(response.type) {
                 AuthenticationResponse.Type.TOKEN -> {
                     SharedPreferencesManager.setSomeStringValue(Constants.AUTH_TOKEN, response.accessToken)
-                    Log.d(tag, response.accessToken)
+                    val intent = Intent(this, UserActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
                 }
                 AuthenticationResponse.Type.ERROR -> {
                     Log.e(tag, response.error)
