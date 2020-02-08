@@ -1,6 +1,7 @@
 package com.santiagoperdomo.spotify.root
 
 import android.app.Application
+import com.santiagoperdomo.prueba.user.UserModule
 import io.reactivex.plugins.RxJavaPlugins
 
 class App: Application() {
@@ -19,6 +20,7 @@ class App: Application() {
         RxJavaPlugins.setErrorHandler { }
         component = DaggerApplicationComponent.builder()
             .applicationModule(ApplicationModule(this))
+            .userModule(UserModule())
             .build()
     }
 }

@@ -10,10 +10,13 @@ import com.santiagoperdomo.spotify.common.SharedPreferencesManager
 import com.santiagoperdomo.spotify.root.App
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
+import de.hdodenhof.circleimageview.CircleImageView
 
 class MainActivity : AppCompatActivity() {
 
     private val tag = "MainActivity"
+
+    private lateinit var btnAuth: CircleImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +24,8 @@ class MainActivity : AppCompatActivity() {
 
         (application as App).component.inject(this)
         AuthenticationClient.openLoginActivity(this, Constants.REQUEST_CODE, RequestToken.requestToken())
+        initView()
+        events()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -38,5 +43,13 @@ class MainActivity : AppCompatActivity() {
                 }else -> {}
             }
         }
+    }
+
+    private fun initView(){
+        btnAuth = findViewById(R.id.btnAuth)
+    }
+
+    private fun events(){
+        btnAuth.setOnClickListener { AuthenticationClient.openLoginActivity(this, Constants.REQUEST_CODE, RequestToken.requestToken()) }
     }
 }
