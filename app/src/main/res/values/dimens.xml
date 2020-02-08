@@ -8,4 +8,6 @@
     <dimen name="dieciocho_sp">18sp</dimen>
     <dimen name="quince_dp">15dp</dimen>
     <dimen name="cero_dp">0dp</dimen>
+    <dimen name="sesenta_dp">60dp</dimen>
+    <dimen name="cinco_dp">5dp</dimen>
 </resources>

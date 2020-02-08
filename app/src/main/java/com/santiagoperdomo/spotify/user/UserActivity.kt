@@ -1,9 +1,11 @@
 package com.santiagoperdomo.spotify.user
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +14,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.santiagoperdomo.spotify.R
 import com.santiagoperdomo.spotify.common.Constants
 import com.santiagoperdomo.spotify.common.SharedPreferencesManager
+import com.santiagoperdomo.spotify.http.model.Playlists
 import com.santiagoperdomo.spotify.http.model.User
+import com.santiagoperdomo.spotify.playlist.PlaylistsActivity
 import com.santiagoperdomo.spotify.root.App
 import javax.inject.Inject
 
@@ -33,7 +37,9 @@ class UserActivity : AppCompatActivity(), UserMVP.View {
     private lateinit var txtType: TextView
     private lateinit var txtUri: TextView
 
+    private lateinit var listPlaylists: ArrayList<Playlists>
     private lateinit var recyclerPlaylists: RecyclerView
+    private lateinit var adapterPlaylists: PlaylistsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,15 +52,20 @@ class UserActivity : AppCompatActivity(), UserMVP.View {
         super.onResume()
         showProgress()
         initViews()
+        events()
         presenter.setView(this)
         presenter.loadUserProfile()
+        presenter.loadPlaylists()
         Log.d(tag, SharedPreferencesManager.getSomeStringValue(Constants.AUTH_TOKEN))
     }
 
     override fun onStop() {
         super.onStop()
         presenter.unsuscribeUserProfile()
+        presenter.unsuscribePlaylists()
+        listPlaylists.clear()
         user = null
+        adapterPlaylists.notifyDataSetChanged()
     }
 
     override fun showToast(message: String) {
@@ -70,6 +81,11 @@ class UserActivity : AppCompatActivity(), UserMVP.View {
         txtType.text = user.type
         txtUri.text = user.uri
         txtFollowers.text = user.followers.total.toString()
+    }
+
+    override fun updatePlaylists(itemPlaylists: Playlists) {
+        listPlaylists.add(itemPlaylists)
+        adapterPlaylists.notifyDataSetChanged()
     }
 
     override fun successRequest() {
@@ -93,7 +109,21 @@ class UserActivity : AppCompatActivity(), UserMVP.View {
         txtProduct = findViewById(R.id.txtProduct)
         txtType = findViewById(R.id.txtType)
         txtUri = findViewById(R.id.txtUri)
+        listPlaylists = ArrayList()
         recyclerPlaylists = findViewById(R.id.recyclerPlaylists)
         recyclerPlaylists.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        adapterPlaylists = PlaylistsAdapter(listPlaylists)
+        recyclerPlaylists.adapter = adapterPlaylists
+    }
+
+
+    private fun events(){
+        adapterPlaylists.initOnClickListener(View.OnClickListener {
+            val bundlePlayList = Bundle()
+            bundlePlayList.putSerializable(Constants.PLAYLIST, listPlaylists[recyclerPlaylists.getChildAdapterPosition(it)])
+            val intent = Intent(this, PlaylistsActivity::class.java)
+            intent.putExtra(Constants.BUNDLE_PLAYLIST, bundlePlayList)
+            startActivity(intent)
+        })
     }
 }

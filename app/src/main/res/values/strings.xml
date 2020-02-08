@@ -10,4 +10,5 @@
     <string name="product">Producto:</string>
     <string name="followers">Seguidores:</string>
     <string name="imagen_usuario">Imagen usuario</string>
+    <string name="imagen_playlist">Imagen playlist</string>
 </resources>

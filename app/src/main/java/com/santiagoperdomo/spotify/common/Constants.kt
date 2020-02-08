@@ -15,6 +15,9 @@ class Constants {
 
         val TEXT_PROGRESS = "Cargando..."
         val COLOR_PROGRESS = "#009624"
+
+        val BUNDLE_PLAYLIST = "BUNDLE_PLAYLIST"
+        val PLAYLIST = "PLAYLIST"
     }
 
 }
