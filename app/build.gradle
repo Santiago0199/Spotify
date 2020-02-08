@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -21,6 +23,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+ext {
+    daggerVersion = "2.25.2"
+    retrofitVersion = "2.6.2"
+    cardview_version = "1.0.0"
+    recyclerview_version = "1.1.0"
 }
 
 dependencies {
@@ -32,4 +45,43 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //Dagger2
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+
+    //Parseo JSON
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    //Http
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
+
+    //Reactive programming
+    implementation "io.reactivex.rxjava2:rxjava:2.2.6"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+
+    //Recycler
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+
+    //CardView
+    implementation "androidx.cardview:cardview:$cardview_version"
+
+    //Sweet Alert
+    implementation 'com.github.f0ris.sweetalert:library:1.6.2'
+
+    //Spotify
+    implementation 'com.spotify.android:auth:1.1.0'
+    implementation 'androidx.browser:browser:1.2.0'
+
+    //Circle Image
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
 }
