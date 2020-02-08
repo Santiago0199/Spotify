@@ -12,6 +12,9 @@ class Constants {
         val APP_SETTINGS_FILE = "APP_SETTINGS"
 
         val AUTH_TOKEN = "AUTH_TOKEN"
+
+        val TEXT_PROGRESS = "Cargando..."
+        val COLOR_PROGRESS = "#009624"
     }
 
 }

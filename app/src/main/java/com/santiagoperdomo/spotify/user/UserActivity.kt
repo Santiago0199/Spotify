@@ -1,9 +1,11 @@
 package com.santiagoperdomo.spotify.user
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -21,6 +23,8 @@ class UserActivity : AppCompatActivity(), UserMVP.View {
     @Inject
     lateinit var presenter: UserMVP.Presenter
 
+    private var user: User? = null
+    lateinit var progress: SweetAlertDialog
     private lateinit var txtId: TextView
     private lateinit var txtDisplayName: TextView
     private lateinit var txtEmail: TextView
@@ -40,9 +44,45 @@ class UserActivity : AppCompatActivity(), UserMVP.View {
 
     override fun onResume() {
         super.onResume()
+        showProgress()
         initViews()
         presenter.setView(this)
+        presenter.loadUserProfile()
         Log.d(tag, SharedPreferencesManager.getSomeStringValue(Constants.AUTH_TOKEN))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.unsuscribeUserProfile()
+        user = null
+    }
+
+    override fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun updateUserProfile(user: User) {
+        this.user = user
+        txtId.text = user.id
+        txtDisplayName.text = user.displayName
+        txtEmail.text = user.email
+        txtProduct.text = user.product
+        txtType.text = user.type
+        txtUri.text = user.uri
+        txtFollowers.text = user.followers.total.toString()
+    }
+
+    override fun successRequest() {
+        progress.dismiss()
+    }
+
+    private fun showProgress(){
+        progress = SweetAlertDialog(this)
+        progress.changeAlertType(SweetAlertDialog.PROGRESS_TYPE)
+        progress.setTitle(Constants.TEXT_PROGRESS)
+        progress.setCancelable(false)
+        progress.progressHelper.barColor = Color.parseColor(Constants.COLOR_PROGRESS)
+        progress.show()
     }
 
     private fun initViews(){
