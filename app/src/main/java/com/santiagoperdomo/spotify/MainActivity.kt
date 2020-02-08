@@ -49,7 +49,5 @@ class MainActivity : AppCompatActivity() {
         btnAuth = findViewById(R.id.btnAuth)
     }
 
-    private fun events(){
-        btnAuth.setOnClickListener { AuthenticationClient.openLoginActivity(this, Constants.REQUEST_CODE, RequestToken.requestToken()) }
-    }
+    private fun events() = btnAuth.setOnClickListener { AuthenticationClient.openLoginActivity(this, Constants.REQUEST_CODE, RequestToken.requestToken()) }
 }

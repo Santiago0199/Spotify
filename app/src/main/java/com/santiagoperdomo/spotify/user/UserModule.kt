@@ -1,5 +1,6 @@
 package com.santiagoperdomo.prueba.user
 
+import com.santiagoperdomo.spotify.http.SpotifyApiService
 import com.santiagoperdomo.spotify.user.*
 import dagger.Module
 import dagger.Provides
@@ -18,7 +19,7 @@ class UserModule {
     }
 
     @Provides
-    fun provideUserRepository(): UserRepository{
-        return UserRepositoryImp()
+    fun provideUserRepository(spotifyApiService: SpotifyApiService): UserRepository{
+        return UserRepositoryImp(spotifyApiService)
     }
 }
