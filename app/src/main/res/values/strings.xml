@@ -11,4 +11,11 @@
     <string name="followers">Seguidores:</string>
     <string name="imagen_usuario">Imagen usuario</string>
     <string name="imagen_playlist">Imagen playlist</string>
+    <string name="imagen_pista">Imagen pista</string>
+    <string name="collaborative">Colaborativo:</string>
+    <string name="pistas">Pistas</string>
+    <string name="id_owner">Id del propietario:</string>
+    <string name="publico">Publico:</string>
+
+
 </resources>

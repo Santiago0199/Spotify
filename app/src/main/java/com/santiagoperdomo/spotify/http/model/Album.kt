@@ -4,35 +4,31 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class Playlists(
-    collaborative: Boolean,
-    description: Any,
+class Album(
+    albumType: String,
+    artists: List<Artist>,
+    availableMarkets: List<String>,
     externalUrls: ExternalUrls,
-    followers: Followers,
     href: String,
     id: String,
     images: List<Image>,
     name: String,
-    owner: Owner,
-    public: Boolean,
-    snapshotId: String,
-    tracks: Tracks,
     type: String,
     uri: String
 ): Serializable {
 
-    @SerializedName("collaborative")
+    @SerializedName("album_type")
     @Expose
-    var collaborative: Boolean = false
-    @SerializedName("description")
+    var albumType: String
+    @SerializedName("artists")
     @Expose
-    var description: Any? = null
+    var artists: List<Artist>? = null
+    @SerializedName("available_markets")
+    @Expose
+    var availableMarkets: List<String>? = null
     @SerializedName("external_urls")
     @Expose
     var externalUrls: ExternalUrls
-    @SerializedName("followers")
-    @Expose
-    var followers: Followers? = null
     @SerializedName("href")
     @Expose
     var href: String
@@ -45,18 +41,6 @@ class Playlists(
     @SerializedName("name")
     @Expose
     var name: String
-    @SerializedName("owner")
-    @Expose
-    var owner: Owner
-    @SerializedName("public")
-    @Expose
-    var public: Boolean = false
-    @SerializedName("snapshot_id")
-    @Expose
-    var snapshotId: String
-    @SerializedName("tracks")
-    @Expose
-    var tracks: Tracks
     @SerializedName("type")
     @Expose
     var type: String
@@ -65,19 +49,16 @@ class Playlists(
     var uri: String
 
     init {
-        this.collaborative = collaborative
-        this.description = description
+        this.albumType = albumType
+        this.artists = artists
+        this.availableMarkets = availableMarkets
         this.externalUrls = externalUrls
-        this.followers = followers
         this.href = href
         this.id = id
         this.images = images
         this.name = name
-        this.owner = owner
-        this.public = public
-        this.snapshotId = snapshotId
-        this.tracks = tracks
         this.type = type
         this.uri = uri
     }
+
 }

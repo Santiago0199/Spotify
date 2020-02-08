@@ -18,6 +18,9 @@ class Constants {
 
         val BUNDLE_PLAYLIST = "BUNDLE_PLAYLIST"
         val PLAYLIST = "PLAYLIST"
+
+        val BUNDLE_TRACK = "BUNDLE_PLAYLIST"
+        val TRACK = "PLAYLIST"
     }
 
 }
