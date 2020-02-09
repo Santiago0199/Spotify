@@ -8,9 +8,11 @@ import okhttp3.Response
 class AuthInterceptor: Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-
         val token = SharedPreferencesManager.getSomeStringValue(Constants.AUTH_TOKEN)
-        val request = chain.request().newBuilder().addHeader("Authorization", "Bearer $token").build()
+        val request = chain.request().newBuilder()
+            .addHeader("Authorization", "Bearer $token")
+            .addHeader("Content-Type", "application/json")
+            .build()
         return chain.proceed(request)
     }
 

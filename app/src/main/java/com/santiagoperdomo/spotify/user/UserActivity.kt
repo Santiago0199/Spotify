@@ -5,9 +5,13 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -23,6 +27,8 @@ import javax.inject.Inject
 class UserActivity : AppCompatActivity(), UserMVP.View {
 
     private val tag = "UserActivity"
+    private val hintNamePlaylist = "Nombre del playlist"
+    private val failUserNull = "No se han podido cargar los datos del usuario, vuelve a iniciar sesión"
 
     @Inject
     lateinit var presenter: UserMVP.Presenter
@@ -64,7 +70,6 @@ class UserActivity : AppCompatActivity(), UserMVP.View {
         presenter.unsuscribeUserProfile()
         presenter.unsuscribePlaylists()
         listPlaylists.clear()
-        user = null
         adapterPlaylists.notifyDataSetChanged()
     }
 
@@ -125,5 +130,41 @@ class UserActivity : AppCompatActivity(), UserMVP.View {
             intent.putExtra(Constants.BUNDLE_PLAYLIST, bundlePlayList)
             startActivity(intent)
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.add_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.add -> {
+                dialogNewPlaylist()
+                true
+            } else -> true
+        }
+    }
+
+    private fun dialogNewPlaylist(){
+        val alert = AlertDialog.Builder(this)
+        val input = EditText(this)
+        input.hint = hintNamePlaylist
+        alert.setView(input)
+        alert.setPositiveButton(Constants.ACCEPT) { dialog, _ ->
+            if(eventDialogPlaylist(input.text.toString().trim { it <= ' ' })) dialog.dismiss()
+        }
+        alert.setNegativeButton(Constants.CANCEL) { dialog, _ -> dialog.cancel() }
+        alert.show()
+    }
+
+    private fun eventDialogPlaylist(value: String): Boolean{
+        if(user != null)
+            if(presenter.validateNamePlaylist(value)){
+                presenter.createdPlaylist(value, user!!.id)
+                return true
+            } else showToast(Constants.EMPTY_NAME_PLAYLIST)
+        else showToast(failUserNull)
+        return false
     }
 }

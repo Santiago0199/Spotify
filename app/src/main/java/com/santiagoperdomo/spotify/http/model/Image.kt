@@ -4,11 +4,11 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class Image(height: Any, url: String, width: Int): Serializable {
+class Image(height: Int, url: String, width: Int): Serializable {
 
     @SerializedName("height")
     @Expose
-    var height: Any
+    var height: Int
 
     @SerializedName("url")
     @Expose

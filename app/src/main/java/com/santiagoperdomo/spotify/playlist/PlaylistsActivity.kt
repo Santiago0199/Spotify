@@ -6,9 +6,12 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,9 +27,9 @@ import javax.inject.Inject
 class PlaylistsActivity : AppCompatActivity(), PlaylistMVP.View {
 
     private val positionArrayImages = 0
-    val textYes = "Si"
-    val textNo = "No"
-    val hintSearch = "Buscar por nombre..."
+    private val textYes = "Si"
+    private val textNo = "No"
+    private val hintSearch = "Buscar por nombre..."
 
     @Inject
     lateinit var presenter: PlaylistMVP.Presenter
@@ -65,12 +68,24 @@ class PlaylistsActivity : AppCompatActivity(), PlaylistMVP.View {
         presenter.loadTrack(itemPlaylist.id)
     }
 
+    override fun onStop() {
+        super.onStop()
+        presenter.unsuscribeTrack()
+        listItemTrack.clear()
+        adapterItemTrack.notifyDataSetChanged()
+    }
+
     override fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun updateTrack(itemTrack: ItemTrack) {
         adapterItemTrack.addItem(itemTrack)
+    }
+
+    override fun updatePlaylist(playlists: Playlists) {
+        itemPlaylist.name = playlists.name
+        txtNameTrack.text = playlists.name
     }
 
     override fun successRequest() {
@@ -108,7 +123,7 @@ class PlaylistsActivity : AppCompatActivity(), PlaylistMVP.View {
         txtIdTrack.text = itemPlaylist.id
         txtNameTrack.text = itemPlaylist.name
         txtOwnerIdTrack.text = itemPlaylist.owner.id
-        if(itemPlaylist.public) txtPublicoTrack.text = textYes else txtPublicoTrack.text = textNo
+        if(itemPlaylist.public!!) txtPublicoTrack.text = textYes else txtPublicoTrack.text = textNo
         if(itemPlaylist.collaborative) txtCollaborativeTrack.text = textYes else txtCollaborativeTrack.text = textNo
         txtTypeTrack.text = itemPlaylist.type
         txtUriTrack.text = itemPlaylist.uri
@@ -119,7 +134,7 @@ class PlaylistsActivity : AppCompatActivity(), PlaylistMVP.View {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.search_menu, menu)
+        menuInflater.inflate(R.menu.menu_playlist, menu)
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val itemSearch = menu?.findItem(R.id.search)
@@ -128,6 +143,19 @@ class PlaylistsActivity : AppCompatActivity(), PlaylistMVP.View {
         createSearch(viewSearch)
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.edit -> {
+                dialogEditPlaylist()
+                true
+            }
+            R.id.delete -> {
+                //presenter.deletePlaylist(itemPlaylist.id)
+                true
+            } else -> true
+        }
     }
 
     private fun createSearch(viewSearch: SearchView){
@@ -142,5 +170,25 @@ class PlaylistsActivity : AppCompatActivity(), PlaylistMVP.View {
                 return true
             }
         })
+    }
+
+    private fun dialogEditPlaylist(){
+        val alert = AlertDialog.Builder(this)
+        val input = EditText(this)
+        input.setText(itemPlaylist.name)
+        alert.setView(input)
+        alert.setPositiveButton(Constants.ACCEPT) { dialog, _ ->
+            if(eventDialogPlaylist(input.text.toString().trim { it <= ' ' })) dialog.dismiss()
+        }
+        alert.setNegativeButton(Constants.CANCEL) { dialog, _ -> dialog.cancel() }
+        alert.show()
+    }
+
+    private fun eventDialogPlaylist(value: String): Boolean{
+        if(presenter.validateNamePlaylist(value)){
+            presenter.updatePlaylist(value, itemPlaylist.id)
+            return true
+        } else showToast(Constants.EMPTY_NAME_PLAYLIST)
+        return false
     }
 }

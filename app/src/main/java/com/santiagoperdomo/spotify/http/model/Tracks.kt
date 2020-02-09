@@ -9,9 +9,9 @@ class Tracks(
     href: String,
     items: List<Objects>,
     limit: Int,
-    next: Any,
+    next: String?,
     offset: Int,
-    previous: Any,
+    previous: String?,
     total: Int
 ): Serializable {
 
@@ -26,13 +26,13 @@ class Tracks(
     var limit: Int = 0
     @SerializedName("next")
     @Expose
-    var next: Any? = null
+    var next: String? = null
     @SerializedName("offset")
     @Expose
     var offset: Int = 0
     @SerializedName("previous")
     @Expose
-    var previous: Any? = null
+    var previous: String? = null
     @SerializedName("total")
     @Expose
     var total: Int = 0

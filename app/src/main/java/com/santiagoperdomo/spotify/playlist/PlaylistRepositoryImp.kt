@@ -2,6 +2,8 @@ package com.santiagoperdomo.spotify.playlist
 
 import com.santiagoperdomo.spotify.http.SpotifyApiService
 import com.santiagoperdomo.spotify.http.model.ItemTrack
+import com.santiagoperdomo.spotify.http.model.Playlists
+import com.santiagoperdomo.spotify.http.model.RequestPlaylist
 import io.reactivex.Observable
 
 class PlaylistRepositoryImp(spotifyApiService: SpotifyApiService): PlaylistRepository {
@@ -39,6 +41,13 @@ class PlaylistRepositoryImp(spotifyApiService: SpotifyApiService): PlaylistRepos
             listTracks.add(item)
         }
     }
+
+    override fun getPlaylistUpdateData(requestPlaylist: RequestPlaylist, idPlaylist: String): Observable<Playlists> {
+        return spotifyApiService.updatePlaylist(idPlaylist, requestPlaylist).concatMap { playlist ->
+            Observable.just(playlist)
+        }
+    }
+
 
     private fun isUpdated(): Boolean{
         return (System.currentTimeMillis() - lastTimesTamp) < CACHE_LIFETIME

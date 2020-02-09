@@ -21,6 +21,9 @@ class Constants {
 
         val BUNDLE_TRACK = "BUNDLE_PLAYLIST"
         val TRACK = "PLAYLIST"
-    }
 
+        val EMPTY_NAME_PLAYLIST = "Debes darle un nombre al playlist"
+        val ACCEPT = "Aceptar"
+        val CANCEL = "Cancelar"
+    }
 }

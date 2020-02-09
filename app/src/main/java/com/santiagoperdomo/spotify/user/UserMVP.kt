@@ -20,11 +20,16 @@ class UserMVP {
 
         fun loadPlaylists()
         fun unsuscribePlaylists()
+
+        fun validateNamePlaylist(name: String): Boolean
+        fun createdPlaylist(name: String, idUser: String)
+
     }
 
     interface Model{
         fun getUserProfile(): Observable<User>
         fun getPlaylists(): Observable<Playlists>
+        fun getPlaylistCreated(name: String, idUser: String): Observable<Playlists>
     }
 
 }

@@ -12,7 +12,7 @@ class RequestToken {
                 Constants.CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN,
                 Constants.REDIRECT_URI
-            ).setScopes(arrayOf("streaming")).build()
+            ).setScopes(arrayOf("streaming", "playlist-modify-private", "playlist-modify-public", "app-remote-control")).build()
         }
     }
 

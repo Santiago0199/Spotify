@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class Playlists(
     collaborative: Boolean,
-    description: Any,
+    description: String?,
     externalUrls: ExternalUrls,
     followers: Followers,
     href: String,
@@ -14,7 +14,7 @@ class Playlists(
     images: List<Image>,
     name: String,
     owner: Owner,
-    public: Boolean,
+    public: Boolean?,
     snapshotId: String,
     tracks: Tracks,
     type: String,
@@ -26,7 +26,7 @@ class Playlists(
     var collaborative: Boolean = false
     @SerializedName("description")
     @Expose
-    var description: Any? = null
+    var description: String? = null
     @SerializedName("external_urls")
     @Expose
     var externalUrls: ExternalUrls
@@ -50,7 +50,7 @@ class Playlists(
     var owner: Owner
     @SerializedName("public")
     @Expose
-    var public: Boolean = false
+    var public: Boolean? = false
     @SerializedName("snapshot_id")
     @Expose
     var snapshotId: String

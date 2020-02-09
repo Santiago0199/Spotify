@@ -2,6 +2,7 @@ package com.santiagoperdomo.spotify.user
 
 import com.santiagoperdomo.spotify.http.SpotifyApiService
 import com.santiagoperdomo.spotify.http.model.Playlists
+import com.santiagoperdomo.spotify.http.model.RequestPlaylist
 import com.santiagoperdomo.spotify.http.model.User
 import io.reactivex.Observable
 
@@ -67,6 +68,12 @@ class UserRepositoryImp(spotifyApiService: SpotifyApiService): UserRepository {
             Observable.fromIterable(responsePlaylists.items)
         }.doOnNext { playlist ->
             listPlaylists.add(playlist)
+        }
+    }
+
+    override fun getPlaylistCreatedData(requestPlaylist: RequestPlaylist, idUser: String): Observable<Playlists> {
+        return spotifyApiService.createPlaylist(idUser, requestPlaylist).concatMap { playlist ->
+            Observable.just(playlist)
         }
     }
 
