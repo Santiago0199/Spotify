@@ -8,16 +8,17 @@ import io.reactivex.Observable
 class UserRepositoryImp(spotifyApiService: SpotifyApiService): UserRepository {
 
     private val spotifyApiService: SpotifyApiService
-
-    private var lastTimesTamp: Long
+    private var lastTimesTampUser: Long
+    private var lastTimesTampPlaylist: Long
     private val CACHE_LIFETIME: Long
     private var userProfile: User?
     private var listPlaylists: ArrayList<Playlists>
 
     init {
         this.spotifyApiService = spotifyApiService
-        lastTimesTamp = System.currentTimeMillis()
-        CACHE_LIFETIME = 20 * 1000
+        lastTimesTampUser = System.currentTimeMillis()
+        lastTimesTampPlaylist = System.currentTimeMillis()
+        CACHE_LIFETIME = 10 * 1000
         userProfile = null
         listPlaylists = ArrayList()
     }
@@ -30,10 +31,10 @@ class UserRepositoryImp(spotifyApiService: SpotifyApiService): UserRepository {
     }
 
     override fun getUserProfileFromCache(): Observable<User> {
-        return if (isUpdated() && userProfile != null){
+        return if (isUpdatedUser() && userProfile != null){
             Observable.just(userProfile)
         }else{
-            lastTimesTamp = System.currentTimeMillis()
+            lastTimesTampUser = System.currentTimeMillis()
             userProfile = null
             Observable.empty()
         }
@@ -52,10 +53,10 @@ class UserRepositoryImp(spotifyApiService: SpotifyApiService): UserRepository {
     }
 
     override fun getPlaylistsFromCache(): Observable<Playlists> {
-        return if(isUpdated()){
+        return if(isUpdatedPlaylist()){
             Observable.fromIterable(listPlaylists)
         }else{
-            lastTimesTamp = System.currentTimeMillis()
+            lastTimesTampPlaylist = System.currentTimeMillis()
             listPlaylists.clear()
             Observable.empty()
         }
@@ -69,8 +70,11 @@ class UserRepositoryImp(spotifyApiService: SpotifyApiService): UserRepository {
         }
     }
 
+    private fun isUpdatedUser(): Boolean{
+        return (System.currentTimeMillis() - lastTimesTampUser) < CACHE_LIFETIME
+    }
 
-    private fun isUpdated(): Boolean{
-        return (System.currentTimeMillis() - lastTimesTamp) < CACHE_LIFETIME
+    private fun isUpdatedPlaylist(): Boolean{
+        return (System.currentTimeMillis() - lastTimesTampPlaylist) < CACHE_LIFETIME
     }
 }

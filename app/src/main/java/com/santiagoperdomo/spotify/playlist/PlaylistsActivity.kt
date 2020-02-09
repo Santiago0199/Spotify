@@ -23,6 +23,7 @@ import javax.inject.Inject
 
 class PlaylistsActivity : AppCompatActivity(), PlaylistMVP.View {
 
+    private val positionArrayImages = 0
     val textYes = "Si"
     val textNo = "No"
     val hintSearch = "Buscar por nombre..."
@@ -102,7 +103,8 @@ class PlaylistsActivity : AppCompatActivity(), PlaylistMVP.View {
     }
 
     private fun loadValues(){
-        if(itemPlaylist.images != null) loadImage()
+        val images = itemPlaylist.images
+        if(images != null && images.isNotEmpty()) loadImage()
         txtIdTrack.text = itemPlaylist.id
         txtNameTrack.text = itemPlaylist.name
         txtOwnerIdTrack.text = itemPlaylist.owner.id
@@ -113,6 +115,32 @@ class PlaylistsActivity : AppCompatActivity(), PlaylistMVP.View {
     }
 
     private fun loadImage(){
-        Picasso.with(this).load(itemPlaylist.images!![0].url).into(imgPlaylist)
+        Picasso.with(this).load(itemPlaylist.images!![positionArrayImages].url).into(imgPlaylist)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val itemSearch = menu?.findItem(R.id.search)
+        val viewSearch = itemSearch?.actionView as SearchView
+        viewSearch.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        createSearch(viewSearch)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun createSearch(viewSearch: SearchView){
+        viewSearch.queryHint = hintSearch
+        viewSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                adapterItemTrack.searchContact(query!!)
+                return true
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapterItemTrack.searchContact(newText!!)
+                return true
+            }
+        })
     }
 }

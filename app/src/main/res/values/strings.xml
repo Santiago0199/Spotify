@@ -1,21 +1,24 @@
 <resources>
     <string name="app_name">Spotify</string>
     <string name="playlists">Playlists</string>
+    <string name="pistas">Pistas</string>
     <string name="buscar">Buscar</string>
     <string name="id">Id:</string>
     <string name="name">Nombre:</string>
     <string name="uri">Uri:</string>
     <string name="type">Tipo:</string>
+    <string name="collaborative">Colaborativo:</string>
+    <string name="publico">Publico:</string>
+    <string name="id_owner">Id del propietario:</string>
+    <string name="number_track">Número pista:</string>
+    <string name="album">Album:</string>
+    <string name="added_by">Añadido por:</string>
+    <string name="added_at">Fecha Añadido:</string>
+    <string name="artists">Artistas:</string>
     <string name="email">Email:</string>
     <string name="product">Producto:</string>
     <string name="followers">Seguidores:</string>
-    <string name="imagen_usuario">Imagen usuario</string>
     <string name="imagen_playlist">Imagen playlist</string>
+    <string name="imagen_usuario">Imagen usuario</string>
     <string name="imagen_pista">Imagen pista</string>
-    <string name="collaborative">Colaborativo:</string>
-    <string name="pistas">Pistas</string>
-    <string name="id_owner">Id del propietario:</string>
-    <string name="publico">Publico:</string>
-
-
 </resources>

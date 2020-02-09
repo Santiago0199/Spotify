@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso
 
 class PlaylistsAdapter(listPlaylists: List<Playlists>): RecyclerView.Adapter<PlaylistsAdapter.ViewHolder>(), View.OnClickListener{
 
+    private val positionArrayImages = 0
     val listPlaylists: List<Playlists>
     lateinit var listenerClick: View.OnClickListener
     lateinit var context: Context
@@ -32,9 +33,10 @@ class PlaylistsAdapter(listPlaylists: List<Playlists>): RecyclerView.Adapter<Pla
         val item = listPlaylists[position]
         holder.titlePlaylists.setText(item.name)
         holder.idPlaylists.setText(item.id)
-        if(item.images != null){
+        val images = item.images
+        if(images != null && images.isNotEmpty()){
             val image = item.images
-            Picasso.with(context).load(image!![0].url).into(holder.imgPlaylists)
+            Picasso.with(context).load(image!![positionArrayImages].url).into(holder.imgPlaylists)
         }
     }
 

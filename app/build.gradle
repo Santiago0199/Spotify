@@ -84,4 +84,7 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
+    //Reproductor
+    implementation project(':spotify-app-remote')
+
 }

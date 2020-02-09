@@ -18,7 +18,6 @@ import java.util.ArrayList
 
 class TrackAdapter(listTracks: ArrayList<ItemTrack>): RecyclerView.Adapter<TrackAdapter.ViewHolder>(){
 
-    lateinit var listenerClick: View.OnClickListener
     var listTracks: ArrayList<ItemTrack>
     var copieList: ArrayList<ItemTrack>?
     lateinit var context: Context
